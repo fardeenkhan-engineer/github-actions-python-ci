@@ -1,3 +1,4 @@
+
 name: Python CI Pipeline
 
 on:
@@ -12,8 +13,10 @@ on:
 jobs:
   test:
     name: Python Testing
-
     runs-on: ubuntu-latest
+
+    env:
+      PYTHONPATH: ${{ github.workspace }}
 
     steps:
       - name: Checkout Code
@@ -29,6 +32,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-            - name: Run Tests
+      - name: Verify Project Files
+        run: |
+          pwd
+          ls -la
+          python -c "import app; print('App imported successfully')"
+
+      - name: Run Tests
         run: |
           python -m pytest -v
